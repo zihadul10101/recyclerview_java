@@ -5,11 +5,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SelectListener{
     RecyclerView recyclerView;
     List<MyModel> myModelList;
     CustomAdapter customAdapter;
@@ -56,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
         myModelList.add(new MyModel("zihadul",25));
         myModelList.add(new MyModel("zihadul",25));
         myModelList.add(new MyModel("zihadul",25));
-        customAdapter = new CustomAdapter(this,myModelList);
+        customAdapter = new CustomAdapter(this,myModelList,this);
         recyclerView.setAdapter(customAdapter);
+    }
+
+    @Override
+    public void onItemClicked(MyModel myModel) {
+        Toast.makeText(this, myModel.getName(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -2,6 +2,7 @@ package com.example.recyclerview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,10 +13,12 @@ import java.util.List;
 public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
     private Context context;
     private List<MyModel> list;
+    private SelectListener listener;
 
-    public CustomAdapter(Context context, List<MyModel> list) {
+    public CustomAdapter(Context context, List<MyModel> list,SelectListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,6 +32,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
         holder.textName.setText(list.get(position).getName());
         holder.textAge.setText(String.valueOf(list.get(position).getAge()));
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClicked(list.get(position));
+            }
+        });
+
 
     }
 
