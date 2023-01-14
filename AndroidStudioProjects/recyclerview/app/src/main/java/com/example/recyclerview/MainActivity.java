@@ -1,9 +1,11 @@
 package com.example.recyclerview;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -14,13 +16,38 @@ public class MainActivity extends AppCompatActivity implements SelectListener{
     RecyclerView recyclerView;
     List<MyModel> myModelList;
     CustomAdapter customAdapter;
+    SearchView searchView;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+         searchView = findViewById(R.id.search_view);
         displayItems();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filter(String newText) {
+        List<MyModel> filteredList = new ArrayList<>();
+        for(MyModel item : myModelList){
+            if(item.getName().toLowerCase().contains(newText.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+        customAdapter.filterlist(filteredList);
     }
 
     private void displayItems() {
@@ -59,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements SelectListener{
         myModelList.add(new MyModel("zihadul",25));
         customAdapter = new CustomAdapter(this,myModelList,this);
         recyclerView.setAdapter(customAdapter);
+
     }
 
     @Override

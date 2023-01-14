@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
@@ -45,5 +46,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+    public void filterlist(List<MyModel>filteredList){
+        list = filteredList;
+        notifyDataSetChanged();
     }
 }
